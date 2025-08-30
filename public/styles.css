@@ -1,0 +1,207 @@
+:root {
+  --bg: #0a0a0a;
+  --fg: #f7f7f7;
+  --muted: #bdbdbd;
+  --card: #111111;
+  --border: #222222;
+  --accent: #ffffff;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Fraunces', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.5;
+}
+
+.container {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 32px;
+  padding: 54px 24px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  font-size: 32px;
+}
+h1 { margin: 0; font-size: 28px; letter-spacing: 0.4px; }
+.tagline { margin: 0; color: var(--muted); font-size: 20px; font-weight: 500; font-family: 'Fraunces', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.form { display: grid; gap: 12px; }
+.label { color: var(--muted); font-size: 20px;  font-weight: 600;}
+
+.input-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+input[type="url"], input[readonly] {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #0c0c0c;
+  color: var(--fg);
+  outline: none;
+}
+input::placeholder { color: #8f8f8f; font-family: inherit; }
+input::-webkit-input-placeholder { color: #8f8f8f; font-family: inherit; }
+input::-moz-placeholder { color: #8f8f8f; font-family: inherit; }
+input:-ms-input-placeholder { color: #8f8f8f; font-family: inherit; }
+input::-ms-input-placeholder { color: #8f8f8f; font-family: inherit; }
+input:focus { border-color: #3a3a3a; }
+
+.btn {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: #000000;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+}
+.btn:hover { filter: brightness(0.9); }
+.btn:active { transform: translateY(1px); }
+.btn.secondary { background: #ffffff; color: #000000; }
+
+.help { color: var(--muted); font-size: 14px; margin: 4px 0 0; }
+.error { color: #ff6b6b; font-size: 14px; margin: 6px 0 0; min-height: 18px; }
+
+.result { margin-top: 20px; display: grid; gap: 10px; }
+.result.hidden { display: none; }
+.hidden { display: none; }
+.result-label { color: var(--muted); font-size: 13px; }
+.result-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+.result-msg { color: var(--muted); font-size: 13px; }
+
+.actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn.icon { display: inline-flex; align-items: center; gap: 8px; }
+/* Normalize variant classes to white/black */
+.btn.primary, .btn.info, .btn.success { background: #ffffff; color: #000000; border-color: var(--border); }
+/* Keep New URL button colored */
+#againBtn { background: #207a3a; color: #ffffff; border-color: #207a3a; }
+.icon { font-size: 18px; line-height: 1; }
+
+/* Button loading spinner (Apple-inspired subtle dots) */
+.btn.loading { color: transparent; pointer-events: none; }
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.btn.loading::before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #000; /* black ring for white button */
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+
+@media (max-width: 640px) {
+  .input-row, .result-row { grid-template-columns: 1fr; }
+}
+
+
+/* Overlay Dialog */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 50;
+}
+.overlay.hidden { display: none; }
+
+.dialog {
+  width: 100%;
+  max-width: 520px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.dialog-title { margin: 0 0 6px; font-size: 20px; }
+.dialog-sub { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+.dialog-field { margin-bottom: 16px; }
+.dialog-actions { display: flex; gap: 12px; justify-content: flex-end; }
+
+/* Apple-like 12-dot loader */
+.loader {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,0.4);
+  z-index: 60;
+}
+.loader.hidden { display: none; }
+.loader span {
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 50%;
+  opacity: 0.2;
+  position: absolute;
+  animation: loaderBlink 1.2s linear infinite;
+}
+
+@keyframes loaderBlink {
+  0% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+/* Position 12 dots around a circle */
+.loader span:nth-child(1)  { transform: translate(0, -28px); animation-delay: -1.1s; }
+.loader span:nth-child(2)  { transform: translate(14px, -24px); animation-delay: -1.0s; }
+.loader span:nth-child(3)  { transform: translate(24px, -14px); animation-delay: -0.9s; }
+.loader span:nth-child(4)  { transform: translate(28px, 0);     animation-delay: -0.8s; }
+.loader span:nth-child(5)  { transform: translate(24px, 14px);  animation-delay: -0.7s; }
+.loader span:nth-child(6)  { transform: translate(14px, 24px);  animation-delay: -0.6s; }
+.loader span:nth-child(7)  { transform: translate(0, 28px);    animation-delay: -0.5s; }
+.loader span:nth-child(8)  { transform: translate(-14px, 24px); animation-delay: -0.4s; }
+.loader span:nth-child(9)  { transform: translate(-24px, 14px); animation-delay: -0.3s; }
+.loader span:nth-child(10) { transform: translate(-28px, 0);    animation-delay: -0.2s; }
+.loader span:nth-child(11) { transform: translate(-24px, -14px);animation-delay: -0.1s; }
+.loader span:nth-child(12) { transform: translate(-14px, -24px);animation-delay: 0s; }
+
