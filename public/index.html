@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Linkify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">↯</div>
+        <h1>Linkify</h1>
+      </div>
+      <p class="tagline">Shorten. Share. Track.</p>
+    </header>
+
+    <section class="card">
+      <form id="shorten-form" class="form" novalidate autocomplete="off">
+        <label for="longUrl" class="label">Paste your long URL</label>
+        <div class="input-row">
+          <input id="longUrl" name="longUrl" type="url" placeholder="Enter the link here" required />
+          <button type="submit" class="btn">Shorten url</button>
+        </div>
+        <p class="help">We only use your URL to generate a short link | Links expire after 7 days.</p>
+        <p id="formError" class="error" role="alert"></p>
+      </form>
+
+      <div id="result" class="result hidden" role="status" aria-live="polite">
+        <div class="original">
+          <span class="result-label">Your long url</span>
+          <div class="result-row">
+            <input id="originalUrl" readonly />
+          </div>
+        </div>
+        <span class="result-label">Your short link</span>
+        <div class="result-row">
+          <input id="shortUrl" readonly />
+        </div>
+        <div class="actions">
+          <a id="visitBtn" class="btn icon primary" href="#" target="_blank" rel="noopener" aria-label="Visit">
+            <span>Visit</span>
+          </a>
+          <button id="shareBtn" class="btn icon info" type="button" aria-label="Share">
+            <span>Share</span>
+          </button>
+          <button id="copyBtn" class="btn icon success" type="button" aria-label="Copy">
+            <span>Copy</span>
+          </button>
+          <button id="againBtn" class="btn icon secondary" type="button" aria-label="New URL">
+            <span class="icon" aria-hidden="true">＋</span>
+            <span>New URL</span>
+          </button>
+        </div>
+        <p id="resultMsg" class="result-msg"></p>
+      </div>
+    </section>
+
+    <div id="loader" class="loader hidden" aria-live="polite" aria-busy="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </main>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
+
+
