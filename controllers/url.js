@@ -25,8 +25,9 @@ async function generateShortUrl(req, res) {
     const dataToSave = new UserModel({ originalUrl, shortUrl });
     await dataToSave.save();
 
+    const protocol = 'https';
     return res.status(201).json({
-      shortUrl: `${req.protocol}://${req.get('host')}/${shortUrl}`,
+      shortUrl: `${protocol}://${req.get('host')}/${shortUrl}`,
       message: 'Short URL created successfully',
     });
   } catch (error) {
