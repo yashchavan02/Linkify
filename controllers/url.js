@@ -13,6 +13,7 @@ async function generateShortUrl(req, res) {
 
     const existingUrl = await UserModel.findOne({ originalUrl });
     if (existingUrl) {
+      await UserModel.updateOne({ originalUrl }, { createdAt: new Date() });
       return res.status(200).json({
         shortUrl: `${req.protocol}://${req.get('host')}/${existingUrl.shortUrl}`,
         message: 'URL already exists, returning existing short URL',
