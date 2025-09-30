@@ -21,7 +21,7 @@ async function generateShortUrl(req, res) {
     }
 
     const { nanoid } = await import('nanoid');
-    const shortUrl = nanoid(7);
+    const shortUrl = nanoid(5);
 
     const dataToSave = new UserModel({ originalUrl, shortUrl });
     await dataToSave.save();
