@@ -46,12 +46,17 @@ async function connectToDB() {
       console.error('MongoDB error:', err.message);
     });
 
+    let isReconnecting = false;
     mongoose.connection.on('disconnected', () => {
       console.warn('MongoDB disconnected');
-      if (mongoose.connection.readyState !== 1) {
+      if (mongoose.connection.readyState !== 1 && !isReconnecting) {
+        isReconnecting = true;
         console.log('Attempting to reconnect to MongoDB...');
         mongoose.connect(mongoURL, mongoOptions).catch(err => {
           console.error('Reconnection attempt failed:', err.message);
+          isReconnecting = false;
+        }).then(() => {
+          isReconnecting = false;
         });
       }
     });

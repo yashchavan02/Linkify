@@ -1,6 +1,9 @@
 function isValidUrl(url) {
   try {
-     new URL(url);
+    const urlToValidate = url.startsWith('http://') || url.startsWith('https://') 
+      ? url 
+      : `https://${url}`;
+     new URL(urlToValidate);
      return true;
   } catch(error) {
     return false;

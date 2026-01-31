@@ -11,7 +11,7 @@ async function generateShortUrl(req, res) {
       return res.status(400).json({ error: 'Bad Request', message: 'The URL is not valid' });
     }
 
-    const existingUrl = await UserModel.findOne({ originalUrl });
+    let existingUrl = await UserModel.findOne({ originalUrl });
     if (existingUrl) {
       await UserModel.updateOne({ originalUrl }, { createdAt: new Date() });
       return res.status(200).json({
@@ -21,21 +21,31 @@ async function generateShortUrl(req, res) {
     }
 
     const { nanoid } = await import('nanoid');
-    const shortUrl = nanoid(5);
+    let shortUrl;
+    let maxRetries = 5;
+    
+    do {
+      shortUrl = nanoid(5);
+      existingUrl = await UserModel.findOne({ shortUrl });
+      maxRetries--;
+    } while (existingUrl && maxRetries > 0);
+
+    if (existingUrl) {
+      throw new Error('Unable to generate unique short URL after multiple attempts');
+    }
 
     const dataToSave = new UserModel({ originalUrl, shortUrl });
     await dataToSave.save();
 
-    const protocol = 'https';
     return res.status(201).json({
-      shortUrl: `${protocol}://${req.get('host')}/${shortUrl}`,
+      shortUrl: `${req.protocol}://${req.get('host')}/${shortUrl}`,
       message: 'Short URL created successfully',
     });
   } catch (error) {
     console.error('Error in generateShortUrl:', error.message);
     return res.status(500).json({
       error: 'Internal Server Error',
-      message: `There is some error: ${error.message}`,
+      message: error.message,
       timestamp: new Date().toISOString(),
     });
   }
@@ -58,7 +68,7 @@ async function redirectToUrl(req, res) {
     console.error('Error in redirectToUrl:', error.message);
     return res.status(500).json({
       error: 'Internal Server Error',
-      message: `There is some error: ${error.message}`,
+      message: error.message,
       timestamp: new Date().toISOString(),
     });
   }
